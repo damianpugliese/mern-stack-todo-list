@@ -1,8 +1,8 @@
-# React-Express Kit de Inicio
+# MERN ToDo List
 
-> Kit de Inicio para crear Apps Full Stack con React y Express. Con un sólo comando se inician el Servidor (Express) y el Cliente (React)
+> Mern Stack ToDo List 
 
-## Inicio Rápido
+<!-- ## Inicio Rápido
 
 ``` bash
 # Instalar dependencias (concurrently) en la carpeta raíz
@@ -28,7 +28,7 @@ npm run client
 
 ## Deployment
 
-En el package.json de la carpeta raíz están creados los scripts para hacer el deploy a heroku
+En el package.json de la carpeta raíz están creados los scripts para hacer el deploy a heroku -->
 
 ### Autor
 

@@ -1,11 +1,9 @@
 {
-  "name": "react-express-kit-inicio",
+  "name": "mern-todo-list",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "client-install": "npm install --prefix client",
-    "server-install": "npm install --prefix server",
     "start": "npm start --prefix server",
     "server": "npm run server --prefix server",
     "client": "npm start --prefix client",
