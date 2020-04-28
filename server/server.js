@@ -13,20 +13,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-// MongoDB
+// MongoDB Connect
 const mongoURI = require('./config/config').mongoURI;
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-.then(() => {
-    console.log(`${chalk.green('✓')} ${chalk.blue(`Base de datos conectada...`)}`)
-})
-.catch(err => console.log(err));
+    .then(() => {
+        console.log(`${chalk.green('✓')} ${chalk.blue(`MongoDB connected...`)}`)
+    })
+    .catch(err => console.log(err));
 
-// Rutas
-const todoRoutes = require('./routes/todo');
-app.use('/api/todo', todoRoutes);
+// Routes
+const tasks = require('./routes/api/tasks');
+app.use('/api/tasks', tasks);
 
-// Contenido Estático en producción
+// Server React Frontend
 if (process.env.NODE_ENV === 'production') {
 
     app.use(express.static(path.join(__dirname, '../client/build')));
@@ -37,6 +37,7 @@ if (process.env.NODE_ENV === 'production') {
 
 }
 
+//  Server Init
 app.listen(PORT, () =>
-    console.log(`${chalk.green('✓')} ${chalk.blue(`Servidor iniciado en puerto ${PORT}`)}`)
+    console.log(`${chalk.green('✓')} ${chalk.blue(`Server listen on port ${PORT}`)}`)
 );
