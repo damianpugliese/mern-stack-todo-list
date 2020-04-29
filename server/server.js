@@ -26,7 +26,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 const tasks = require('./routes/api/tasks');
 app.use('/api/tasks', tasks);
 
-// Server React Frontend
+// Serve React Frontend
 if (process.env.NODE_ENV === 'production') {
 
     app.use(express.static(path.join(__dirname, '../client/build')));
