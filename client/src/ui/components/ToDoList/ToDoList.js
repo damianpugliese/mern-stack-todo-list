@@ -1,78 +1,134 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import { v4 as uuid } from 'uuid';
+import { IoIosAddCircleOutline } from 'react-icons/io'
+import { MdEdit, MdDelete, MdRadioButtonUnchecked, MdCheckCircle } from 'react-icons/md'
+import axios from 'axios' 
 
 const ToDoList = () => {
 
-    const [tasks, setTasks] = useState([
-        { id: uuid(), title: 'Correr' },
-        { id: uuid(), title: 'Nadar' },
-        { id: uuid(), title: 'Comer' },
-        { id: uuid(), title: 'Cocinar' }
-    ])
+    const [tasks, setTasks] = useState([])
+    const [taskTitle, setTaskTitle] = useState('')
+    const [inputValue, setInputValue] = useState(false)
+    
+    const inputAddTaskRef = useRef();
+    const addTaskContainerRef = useRef();
+
+    useEffect(()=>{
+        axios('/api/tasks')
+            .then(res=>{
+                setTasks(res.data)
+            })
+    }, [tasks])
 
     const handleClickAddTask = () => {
-        const title = prompt('Enter a task')
-        if (title) {
-            setTasks([...tasks, { id: uuid(), title }])
+        inputAddTaskRef.current.focus();
+    }
+
+    const handleClickAddTaskValue = () => {
+        axios.post('/api/tasks/add', { title: taskTitle })
+            .then(()=>{
+                setTaskTitle('');
+                setInputValue(false);
+                inputAddTaskRef.current.focus();
+            })
+    }
+
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+            axios.post('/api/tasks/add', { title: taskTitle })
+            .then(()=>{
+                setTaskTitle('');
+                setInputValue(false);
+                inputAddTaskRef.current.focus();
+            })
         }
     }
 
-    const handleClickEditTask = (id, title) => {
+    const handleChangeInputAddTask = (e) => {
+        setTaskTitle(e.target.value)
+        if (e.target.value !== '') {
+            setInputValue(true)
+        } else {
+            setInputValue(false)
+        }
+    }
+
+    const handleClickCheckTask = (i) => {
+        const newTasks = [...tasks]
+        const isCompleted = !tasks[i].isCompleted
+        newTasks[i].isCompleted = !tasks[i].isCompleted;
+        const id = newTasks[i]._id
+        axios.put(`/api/tasks/completed/${id}`, { isCompleted })
+    }
+
+    const handleClickEditTask = (i, title) => {
         const newTitle = prompt('Editar', title)
-        if(newTitle) {
-            setTasks()
-        }
+        const id = tasks[i]._id
+        axios.put(`/api/tasks/edit/${id}`, { title: newTitle })
     }
 
-    const handleClickDeleteTask = (id) => {
-        console.log(id)
-        setTasks(
-            tasks.filter(task => task.id !== id)
-        )
+    const handleClickDeleteTask = (i) => {
+        const id = tasks[i]._id
+        axios.delete(`/api/tasks/delete/${id}`)
     }
 
     return (
         <Container>
             <h5 className="text-primary">Tasks</h5>
-            <Button
-                color="primary"
-                className="mt-3 mb-3"
-                onClick={handleClickAddTask}
-            >
-                Add a task
-            </Button>
+            <div className="add-task-container" ref={addTaskContainerRef}>
+                <Button
+                    color="link"
+                    className="pl-0"
+                    onClick={handleClickAddTask}
+                    style={{ textDecoration: 'none' }}
+                >
+                    <IoIosAddCircleOutline size={20} />
+                </Button>
+                <input className="input-add-task" type="text" ref={inputAddTaskRef} placeholder="Add a Task" value={taskTitle} name="task" onKeyPress={handleKeyPress} onChange={handleChangeInputAddTask}></input>
+                {inputValue && 
+                    <Button
+                        color="link"
+                        size="sm"
+                        onClick={handleClickAddTaskValue}
+                    >
+                        ADD
+                    </Button>
+                }
+            </div>
             <ListGroup flush>
                 <TransitionGroup className="todo-list">
-                    {tasks.map(({ id, title }) => (
-                        <CSSTransition key={id} timeout={300} classNames="fade">
-                            <ListGroupItem className="pl-0 pr-0" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    {tasks.map(({ _id, title}, i) => (
+                        <CSSTransition key={_id} timeout={300} classNames="fade">
+                            <ListGroupItem className="pl-0 pr-0" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', textDecoration: tasks[i].isCompleted ? "line-through" : "" }}>
                                 <span>
                                     <Button
-                                        color="primary"
+                                        color="link"
                                         size="sm"
-                                        className="mr-3"
+                                        className="pl-0"
+                                        onClick={()=>handleClickCheckTask(i)}
                                     >
-                                        Check
+                                        {!tasks[i].isCompleted 
+                                            ? <MdRadioButtonUnchecked size={20}/>
+                                            : <MdCheckCircle size={20}/>
+                                        }
                                     </Button>
                                     {title}
                                 </span>
                                 <span>
                                     <Button
-                                        color="primary"
+                                        color="link"
                                         size="sm"
-                                        className="mr-2"
-                                        onClick={()=>handleClickEditTask(id, title)}
+                                        onClick={()=>handleClickEditTask(i, title)}
                                     >
-                                        Editar
+                                        <MdEdit size={20}/>
                                     </Button>
                                     <Button
-                                        color="primary"
+                                        color="link"
                                         size="sm"
-                                        onClick={()=>handleClickDeleteTask(id)}
+                                        onClick={()=>handleClickDeleteTask(i)}
                                     >
-                                        Borrar
+                                        <MdDelete size={20}/>
                                     </Button>
                                 </span>
                             </ListGroupItem>

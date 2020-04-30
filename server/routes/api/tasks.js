@@ -31,6 +31,13 @@ router.put('/edit/:id', (req, res) => {
         .catch(err=>res.status(404).json({ success: false }));
 });
 
+router.put('/completed/:id', (req, res) => {
+    const newTask = { isCompleted: req.body.isCompleted };
+    Task.findByIdAndUpdate(req.params.id, newTask)
+        .then(()=>res.json({ success: true }))
+        .catch(err=>res.status(404).json({ success: false }));
+});
+
 router.delete('/delete/:id', (req, res) => {
     Task.findByIdAndRemove(req.params.id)
         .then(()=>res.json({ succes: true }))
