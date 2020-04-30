@@ -3,51 +3,64 @@ import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { IoIosAddCircleOutline } from 'react-icons/io'
 import { MdEdit, MdDelete, MdRadioButtonUnchecked, MdCheckCircle } from 'react-icons/md'
-import axios from 'axios'
+// import axios from 'axios'
+import EditModal from '../EditModal.js/EditModal'
+import { useSelector, useDispatch } from 'react-redux'
+import { getTasks, addTask, deleteTask, completeTask, setModal } from '../../../redux/actions/Tasks/tasksActions'
+import { v4 as uuid } from 'uuid'
 
 const ToDoList = () => {
 
-    const [tasks, setTasks] = useState([])
+    const tasks = useSelector(state => state.tasks.tasks)
+    const dispatch = useDispatch();
+
+    const dispatchGetTasks = () => dispatch(getTasks())
+    const dispatchDeleteTask = id => dispatch(deleteTask(id))
+    const dispatchAddTask = task => dispatch(addTask(task))
+    const dispatchSetModal = () => dispatch(setModal())
+    const dispatchCompleteTask = id => dispatch(completeTask(id))
+
     const [taskTitle, setTaskTitle] = useState('')
     const [inputValue, setInputValue] = useState(false)
 
     const inputAddTaskRef = useRef();
     const addTaskContainerRef = useRef();
+    const buttonAddTaskValue = useRef();
 
     useEffect(() => {
-        axios('/api/tasks')
-            .then(res => {
-                setTasks(res.data)
-            })
-    }, [tasks])
+        dispatchGetTasks()
+    }, [])
 
     const handleClickAddTask = () => {
         inputAddTaskRef.current.focus();
     }
 
     const handleClickAddTaskValue = () => {
-        axios.post('/api/tasks/add', { title: taskTitle })
-            .then(() => {
-                setTaskTitle('');
-                setInputValue(false);
-                inputAddTaskRef.current.focus();
-            })
+        const newTask = {
+            id: uuid(),
+            title: taskTitle,
+            isCompleted: false
+        }
+        
+        dispatchAddTask(newTask)
+            
+        setTaskTitle('');
+        setInputValue(false);
+        inputAddTaskRef.current.focus();
     }
 
     const handleKeyPress = (e) => {
         if (e.key === "Enter") {
-            axios.post('/api/tasks/add', { title: taskTitle })
-                .then(() => {
-                    setTaskTitle('');
-                    setInputValue(false);
-                    inputAddTaskRef.current.focus();
-                })
+            if(!(/^\s+$/.test(taskTitle))) {
+                handleClickAddTaskValue()
+            }
         }
     }
 
     const handleChangeInputAddTask = (e) => {
-        setTaskTitle(e.target.value)
-        if (e.target.value !== '') {
+        const inputValue = e.target.value;
+        setTaskTitle(inputValue)
+        if (inputValue !== '') {
             setInputValue(true)
         } else {
             setInputValue(false)
@@ -55,25 +68,21 @@ const ToDoList = () => {
     }
 
     const handleClickCheckTask = (i) => {
-        const newTasks = [...tasks]
-        const isCompleted = !tasks[i].isCompleted
-        newTasks[i].isCompleted = !tasks[i].isCompleted;
-        const id = newTasks[i]._id
-        axios.put(`/api/tasks/completed/${id}`, { isCompleted })
+        const id = tasks[i].id;
+        dispatchCompleteTask(id)
     }
 
-    const handleClickEditTask = (i, title) => {
-        const newTitle = prompt('Editar', title)
-        const id = tasks[i]._id
-        axios.put(`/api/tasks/edit/${id}`, { title: newTitle })
+    const handleClickEditTask = () => {
+        dispatchSetModal();
     }
 
     const handleClickDeleteTask = (i) => {
-        const id = tasks[i]._id
-        axios.delete(`/api/tasks/delete/${id}`)
+        const id = tasks[i].id
+        dispatchDeleteTask(id)
     }
 
     return (
+        <>
         <Container>
             <h5 className="text-primary">Tasks</h5>
             <div className="add-task-container" ref={addTaskContainerRef}>
@@ -81,16 +90,18 @@ const ToDoList = () => {
                     color="link"
                     className="pl-0"
                     onClick={handleClickAddTask}
-                    style={{ textDecoration: 'none' }}
                 >
                     <IoIosAddCircleOutline size={20} />
                 </Button>
-                <input className="input-add-task" type="text" ref={inputAddTaskRef} placeholder="Add a Task" value={taskTitle} name="task" onKeyPress={handleKeyPress} onChange={handleChangeInputAddTask}></input>
+                <input className="input-add-task" type="text" ref={inputAddTaskRef} placeholder="Add a Task" value={taskTitle} name="task" onKeyPress={handleKeyPress} onChange={handleChangeInputAddTask}>
+                </input>
                 {inputValue &&
                     <Button
                         color="link"
                         size="sm"
                         onClick={handleClickAddTaskValue}
+                        disabled={/^\s+$/.test(taskTitle)}
+                        ref={buttonAddTaskValue}
                     >
                         ADD
                     </Button>
@@ -119,7 +130,7 @@ const ToDoList = () => {
                                     <Button
                                         color="link"
                                         size="sm"
-                                        onClick={() => handleClickEditTask(i, title)}
+                                        onClick={() => handleClickEditTask()}
                                     >
                                         <MdEdit size={20} />
                                     </Button>
@@ -137,6 +148,8 @@ const ToDoList = () => {
                 </TransitionGroup>
             </ListGroup>
         </Container>
+        <EditModal/>
+        </>
     )
 }
 

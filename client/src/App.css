@@ -4,6 +4,10 @@
     justify-content: center;
 }
 
+.btn:disabled {
+    color: #007bff;
+}
+
 .btn, .btn:hover, .btn:active, .btn:focus {
     text-decoration: none;
 }
@@ -16,7 +20,7 @@ span {
 .add-task-container {
     display: Flex;
     align-items: center;
-    padding-bottom: 10px;
+    justify-content: center;
     border-bottom: 1px solid rgba(0,0,0,.125); 
 }
 
@@ -28,6 +32,7 @@ span {
     display: inline-flex;
     border: none;
     flex: 1;
+    padding: 10px 0;
 }
 
 .input-add-task::placeholder {
