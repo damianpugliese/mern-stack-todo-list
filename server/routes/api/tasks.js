@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     Task.findById(req.params.id)
         .then(task => res.json(task))
-        .catch(err=>console.log(err))
+        .catch(err => console.log(err))
 });
 
 router.post('/add', (req, res) => {
@@ -20,28 +20,28 @@ router.post('/add', (req, res) => {
         title: req.body.title
     });
     newTask.save()
-        .then(()=>res.json({ msg: 'Task saved' }))
-        .catch(err=>console.log(err))
+        .then(() => res.json({ msg: 'Task saved' }))
+        .catch(err => console.log(err))
 });
 
 router.put('/edit/:id', (req, res) => {
     const newTask = { title: req.body.title };
     Task.findByIdAndUpdate(req.params.id, newTask)
-        .then(()=>res.json({ success: true }))
-        .catch(err=>res.status(404).json({ success: false }));
+        .then(() => res.json({ success: true }))
+        .catch(err => res.status(404).json({ success: false }));
 });
 
 router.put('/completed/:id', (req, res) => {
     const newTask = { isCompleted: req.body.isCompleted };
     Task.findByIdAndUpdate(req.params.id, newTask)
-        .then(()=>res.json({ success: true }))
-        .catch(err=>res.status(404).json({ success: false }));
+        .then(() => res.json({ success: true }))
+        .catch(err => res.status(404).json({ success: false }));
 });
 
 router.delete('/delete/:id', (req, res) => {
     Task.findByIdAndRemove(req.params.id)
-        .then(()=>res.json({ succes: true }))
-        .catch(err=>res.status(404).json({ success: false }));
+        .then(() => res.json({ succes: true }))
+        .catch(err => res.status(404).json({ success: false }));
 });
 
 module.exports = router;
