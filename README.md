@@ -2,17 +2,19 @@
 
 > Mern Stack To Do List 
 
-<!-- ## Inicio Rápido
+## Inicio Rápido
+
+Crear un archivo .env el carpeta server y añadir su MONGO_URI. Ej.: MONGO_URI=YOUR_MONGO_URI
 
 ``` bash
 # Instalar dependencias (concurrently) en la carpeta raíz
 npm install
 
-# Instalar dependencias en la carpeta client (React)
-npm run client-install
-
 # Instalar dependencias en la carpeta server (Express)
 npm run server-install
+
+# Instalar dependencias en la carpeta client (React)
+npm run client-install
 
 # Correr Cliente (client/React) y Servidor (server/Express) con concurrently simultáneamente
 npm run dev
@@ -28,7 +30,9 @@ npm run client
 
 ## Deployment
 
-En el package.json de la carpeta raíz están creados los scripts para hacer el deploy a heroku -->
+En el package.json de la carpeta raíz están creados los scripts para hacer el deploy a heroku
+
+## App Info
 
 ### Autor
 
@@ -37,4 +41,8 @@ Damián Pugliese
 ### Versión
 
 1.0.0
+
+### Licencia
+
+Este proyecto tiene licencia MIT
 
