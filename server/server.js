@@ -1,8 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 const chalk = require('chalk');
+const config = require('./config/config')
+
 
 // App & Port
 const app = express();
@@ -14,9 +17,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 // MongoDB Connect
-const mongoURI = require('./config/config').mongoURI;
+const db = config.MONGO_URI;
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log(`${chalk.green('✓')} ${chalk.blue(`MongoDB connected...`)}`)
     })

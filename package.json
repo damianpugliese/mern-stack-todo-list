@@ -1,9 +1,11 @@
 {
   "name": "mern-todo-list",
   "version": "1.0.0",
-  "description": "",
+  "description": "MERN Stack ToDo List",
   "main": "server.js",
   "scripts": {
+    "server-install": "npm install --prefix server",
+    "client-install": "npm install --prefix client",
     "start": "npm start --prefix server",
     "server": "npm run server --prefix server",
     "client": "npm start --prefix client",

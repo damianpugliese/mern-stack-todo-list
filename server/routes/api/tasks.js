@@ -20,20 +20,18 @@ router.post('/add', (req, res) => {
         title: req.body.title
     });
     newTask.save()
-        .then(() => res.json({ msg: 'Task saved' }))
+        .then(task => res.json(task))
         .catch(err => console.log(err))
 });
 
-router.put('/edit/:id', (req, res) => {
-    const newTask = { title: req.body.title };
-    Task.findByIdAndUpdate(req.params.id, newTask)
-        .then(() => res.json({ success: true }))
+router.put('/update/:id', (req, res) => {
+    Task.findByIdAndUpdate(req.params.id, { title: req.body.title }, { new: true })
+        .then(task => res.json(task))
         .catch(err => res.status(404).json({ success: false }));
 });
 
-router.put('/completed/:id', (req, res) => {
-    const newTask = { isCompleted: req.body.isCompleted };
-    Task.findByIdAndUpdate(req.params.id, newTask)
+router.put('/complete/:id', (req, res) => {
+    Task.findByIdAndUpdate(req.params.id, { isCompleted: req.body.isCompleted })
         .then(() => res.json({ success: true }))
         .catch(err => res.status(404).json({ success: false }));
 });

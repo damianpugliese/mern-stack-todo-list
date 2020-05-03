@@ -1,0 +1,74 @@
+$colorPrimary: #007bff; 
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &:disabled { color: #007bff }
+    &:hover, :active, :focus { text-decoration: none; }
+}
+
+span {
+    display: flex;
+    align-items: center;
+}
+
+.add-task-container {
+    display: Flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    
+    &:focus-within { border-bottom: 1px solid $colorPrimary }
+}
+
+.input-add-task {
+    display: inline-flex;
+    border: none;
+    flex: 1;
+    padding: 10px 0;
+
+    &:focus {
+        border: none;
+        outline: none;
+    }
+
+    &::placeholder { color: $colorPrimary }
+
+    &:focus::placeholder { color: #000 }
+}
+
+.circular-progress {
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    left: 50%;
+}
+
+.__react_component_tooltip.show {
+    opacity: 1 !important;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.28) !important;
+    padding: 5px !important;
+    font-size: 12px !important;
+    border-radius: 2px !important;
+}
+
+.fade-enter {
+    opacity: 0;
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity 100ms ease-in;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 100ms ease-in;
+}
+

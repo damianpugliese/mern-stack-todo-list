@@ -26,7 +26,7 @@ const NavBar = () => {
                     <Nav className="ml-auto" navbar>
                         <NavItem>
                             <NavLink href="https://github.com/damianpugliese/todo-list-mern-stack" className="text-light"
-                            target="blank"
+                                target="blank"
                             >
                                 GitHub
                             </NavLink>
