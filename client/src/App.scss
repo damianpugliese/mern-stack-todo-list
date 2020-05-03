@@ -27,7 +27,7 @@ span {
     display: inline-flex;
     border: none;
     flex: 1;
-    padding: 10px 0;
+    margin: 10px 0;
 
     &:focus {
         border: none;
@@ -37,6 +37,13 @@ span {
     &::placeholder { color: $colorPrimary }
 
     &:focus::placeholder { color: #000 }
+}
+
+input:-webkit-autofill,
+:hover, 
+:focus, 
+:active  {
+    box-shadow: 0 0 0 30px white inset !important;
 }
 
 .circular-progress {

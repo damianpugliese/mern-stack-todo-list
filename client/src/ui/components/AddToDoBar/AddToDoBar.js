@@ -62,12 +62,15 @@ const AddTaskBar = () => {
             </Button>
             <input 
                 className="input-add-task" 
-                type="text" ref={inputAddTaskRef} 
+                type="text" 
+                ref={inputAddTaskRef} 
                 placeholder="Add a Task" 
+                size="sm"
                 value={taskTitle} 
                 name="task" 
                 onKeyPress={handleKeyPress} 
                 onChange={handleChangeInputAddTask}
+                autoComplete="off"
             />
             {inputValue &&
                 <Button
