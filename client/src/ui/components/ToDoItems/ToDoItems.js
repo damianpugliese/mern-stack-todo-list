@@ -2,10 +2,10 @@ import React from 'react'
 import { Button, ListGroupItem } from 'reactstrap'
 import { MdEdit, MdDelete, MdRadioButtonUnchecked, MdCheckCircle } from 'react-icons/md'
 import ReactTooltip from "react-tooltip";
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { deleteTask, completeTask, setModal } from '../../../redux/actions/Tasks/tasksActions'
 
-const ToDoItems = (props) => {
+const ToDoItems = props => {
 
     const dispatch = useDispatch();
     const dispatchCompleteTask = (id, isCompleted) => dispatch(completeTask(id, isCompleted))
