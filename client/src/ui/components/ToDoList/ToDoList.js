@@ -5,7 +5,7 @@ import EditToDoModal from '../EditToDoModal/EditToDoModal'
 import AddToDoBar from '../AddToDoBar/AddToDoBar'
 import { useSelector, useDispatch } from 'react-redux'
 import { getTasks } from '../../../redux/actions/Tasks/tasksActions'
-import ToDoItem from '../ToDoItem/ToDoItem'
+import ToDoItems from '../ToDoItems/ToDoItems'
 
 const ToDoList = () => {
 
@@ -29,21 +29,12 @@ const ToDoList = () => {
                         <TransitionGroup className="todo-list">
                             {tasks.map(({ _id, title }, i) => (
                                 <CSSTransition key={_id} timeout={300} classNames="fade">
-                                    <ListGroupItem  
-                                        className="pl-0 pr-0" 
-                                        style={{ 
-                                            display: 'flex', 
-                                            justifyContent: 'space-between', 
-                                            alignItems: 'center', 
-                                            textDecoration: tasks[i].isCompleted ? "line-through" : "" 
-                                        }}
-                                    >
-                                        <ToDoItem 
-                                            _id={_id} 
-                                            title={title} 
-                                            i={i}
-                                        />
-                                    </ListGroupItem>
+                                    <ToDoItems
+                                        tasks={tasks}
+                                        id={_id} 
+                                        title={title} 
+                                        i={i}
+                                    />
                                 </CSSTransition>
                             ))}
                         </TransitionGroup>
