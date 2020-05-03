@@ -52,7 +52,7 @@ const ToDoItems = props => {
                         : <MdRadioButtonUnchecked size={20} />
                     }
                 </Button>
-                <ReactTooltip id={`button-complete-${props.id}`} place="top" type="light" effect="solid" />
+                <ReactTooltip id={`button-complete-${props.id}`} place="top" type="light" effect="solid" globalEventOff='click'/>
                 <p className="m-0 pl-2">{props.title}</p>
             </span>
             <span>
@@ -65,7 +65,7 @@ const ToDoItems = props => {
                 >
                     <MdEdit size={20} />
                 </Button>
-                <ReactTooltip id={`button-edit-${props.id}`} place="top" type="light" effect="solid" />
+                <ReactTooltip id={`button-edit-${props.id}`} place="top" type="light" effect="solid" globalEventOff='click'/>
                 <Button
                     color="link"
                     size="sm"
@@ -75,7 +75,7 @@ const ToDoItems = props => {
                 >
                     <MdDelete size={20} />
                 </Button>
-                <ReactTooltip id={`button-delete-${props.id}`} place="top" type="light" effect="solid" />
+                <ReactTooltip id={`button-delete-${props.id}`} place="top" type="light" effect="solid" globalEventOff='click'/>
             </span>
         </ListGroupItem>
     )

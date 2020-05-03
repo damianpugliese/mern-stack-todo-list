@@ -6,6 +6,7 @@ $colorPrimary: #007bff;
     justify-content: center;
 
     &:disabled { color: #007bff }
+    
     &:hover, :active, :focus { text-decoration: none; }
 }
 
@@ -53,13 +54,18 @@ input:-webkit-autofill:active  {
     left: 50%;
 }
 
-.__react_component_tooltip.show {
-    opacity: 1 !important;
+.__react_component_tooltip {
     box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.28) !important;
     padding: 5px !important;
     font-size: 12px !important;
     border-radius: 2px !important;
+
+    &.show {
+        opacity: 1 !important;
+    }
 }
+
+
 
 .fade-enter {
     opacity: 0;
