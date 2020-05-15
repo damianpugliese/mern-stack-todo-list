@@ -18,15 +18,15 @@ app.use(cors());
 // MongoDB Connect
 const db = config.MONGO_URI;
 
-mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     .then(() => {
         console.log(`${chalk.green('✓')} ${chalk.blue(`MongoDB connected...`)}`)
     })
     .catch(err => console.log(err));
 
 // Routes
-const tasks = require('./routes/api/tasks');
-app.use('/api/tasks', tasks);
+app.use('/api/tasks', require('./routes/api/tasks'));
+app.use('/api/users', require('./routes/api/users'));
 
 // Serve React Frontend
 if (process.env.NODE_ENV === 'production') {
