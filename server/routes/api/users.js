@@ -8,13 +8,14 @@ const auth = require('../../middlewares/auth');
 const User = require('../../models/user');
 
 router.post('/signup', (req, res) => {
+
     const { username, email, password } = req.body;
 
     if (!username || !email || !password) return res.status(400).json({ msg: 'All fields are required' });
 
     User.findOne({ email })
         .then(user => {
-            if(user) return res.status(400).json({ msg: 'User already exists' });
+            if (user) return res.status(400).json({ msg: 'User already exists' });
 
             const newUser = new User({
                 username,
@@ -24,7 +25,7 @@ router.post('/signup', (req, res) => {
 
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
-                    if(err) throw err;
+                    if (err) throw err;
                     newUser.password = hash;
                     newUser.save()
                         .then(user => {
@@ -33,7 +34,7 @@ router.post('/signup', (req, res) => {
                                 config.JWT_SECRET,
                                 { expiresIn: 3600 },
                                 (err, token) => {
-                                    if(err) throw err;
+                                    if (err) throw err;
                                     res.json({
                                         token,
                                         user: {
@@ -47,7 +48,7 @@ router.post('/signup', (req, res) => {
                         })
                 })
             })
-        })
+        });
 });
 
 router.post('/signin', (req, res) => {
@@ -57,18 +58,18 @@ router.post('/signin', (req, res) => {
 
     User.findOne({ email })
         .then(user => {
-            if(!user) return res.status(400).json({ msg: 'User does not exist' });
+            if (!user) return res.status(400).json({ msg: 'User does not exist' });
 
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
-                    if(!isMatch) return res.status(400).json({ msg: 'Incorrect password' });
+                    if (!isMatch) return res.status(400).json({ msg: 'Incorrect password' });
 
                     jwt.sign(
                         { id: user.id },
                         config.JWT_SECRET,
                         { expiresIn: 3600 },
                         (err, token) => {
-                            if(err) throw err;
+                            if (err) throw err;
                             res.json({
                                 token,
                                 user: {
@@ -84,7 +85,9 @@ router.post('/signin', (req, res) => {
 });
 
 router.get('/user', auth, (req, res) => {
-    User.findById(req.user.id)
+    const { id } = req.user;
+
+    User.findById(id)
         .select('-password')
         .then(user => res.json(user));
 });

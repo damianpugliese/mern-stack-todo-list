@@ -7,7 +7,7 @@ import {
     DELETE_TASK,
     COMPLETE_TASK,
     SET_MODAL
-} from '../../actions/Tasks/taskActionsTypes';
+} from '../../actions/Tasks/tasksActionsTypes';
 
 const initialState = {
     loading: false,

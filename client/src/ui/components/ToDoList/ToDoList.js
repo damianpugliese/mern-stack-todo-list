@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import './ToDoList.scss'
 import { Container, Spinner, ListGroup } from 'reactstrap'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import EditToDoModal from '../EditToDoModal/EditToDoModal'
@@ -20,7 +21,7 @@ const ToDoList = () => {
 
     return (
         <>
-            <Container>
+            <Container className="todo-list-container">
                 <h5 className="text-primary">Tasks</h5>
                 <AddToDoBar/>
                 {loading

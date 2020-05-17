@@ -1,87 +1,11 @@
-$colorPrimary: #007bff; 
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    &:disabled { color: #007bff }
-    
-    &:hover, :active, :focus { text-decoration: none; }
+*, html {
+    margin: 0;
+    padding: 0;
 }
 
-span {
+.App {
     display: flex;
-    align-items: center;
-}
-
-.add-task-container {
-    display: Flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    
-    &:focus-within { border-bottom: 1px solid $colorPrimary }
-}
-
-.input-add-task {
-    display: inline-flex;
-    border: none;
-    flex: 1;
-    margin: 10px 0;
-
-    &:focus {
-        border: none;
-        outline: none;
-    }
-
-    &::placeholder { color: $colorPrimary }
-
-    &:focus::placeholder { color: #000 }
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active  {
-    box-shadow: 0 0 0 30px white inset !important;
-}
-
-.circular-progress {
-    position: absolute;
-    width: 3rem;
-    height: 3rem;
-    left: 50%;
-}
-
-.__react_component_tooltip {
-    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.28) !important;
-    padding: 5px !important;
-    font-size: 12px !important;
-    border-radius: 2px !important;
-
-    &.show {
-        opacity: 1 !important;
-    }
-}
-
-
-
-.fade-enter {
-    opacity: 0;
-}
-
-.fade-enter-active {
-    opacity: 1;
-    transition: opacity 100ms ease-in;
-}
-
-.fade-exit {
-    opacity: 1;
-}
-
-.fade-exit-active {
-    opacity: 0;
-    transition: opacity 100ms ease-in;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
