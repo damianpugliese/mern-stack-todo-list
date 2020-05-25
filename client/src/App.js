@@ -22,6 +22,12 @@ const App = () => {
     const dispatch = useDispatch();
     const dispatchLoadUser = () => dispatch(loadUser());
 
+    useEffect(() => {
+        history.listen((location, action) => {
+            // dispatch();
+        });
+    }, []);
+
     useEffect(()=>{
         dispatchLoadUser();
     }, [])
