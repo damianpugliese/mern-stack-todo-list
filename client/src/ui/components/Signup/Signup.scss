@@ -27,3 +27,14 @@
     }
 
 }
+
+@media (max-width: 600px) {
+    .signup-form {
+        padding: 0 50px;
+        max-width: unset;
+        border-radius: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+}
