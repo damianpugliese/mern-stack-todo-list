@@ -1,21 +1,27 @@
 import React, { useState, useRef } from 'react';
 import './Signup.scss';
-import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import {
     Container, Col, Form,
     FormGroup, Label, Input,
-    Button, FormFeedback
+    Button, FormFeedback, Alert
 } from 'reactstrap';
+import { registerRequest, cleanUsersErrors } from '../../../redux/actions/Users/usersActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-const Signup = () => {
+const Signup = ({history}) => {
+
+    const dispatch = useDispatch();
+    const dispatchRegisterRequest = data => dispatch(registerRequest(data));
+    const dispatchCleanUsersErrors = () => dispatch(cleanUsersErrors());
+
+    const alertMsg = useSelector(state => state.users.errors.msg.msg);
+    const alertId = useSelector(state => state.users.errors.id);
 
     const usernameInput = useRef();
     const emailInput = useRef();
     const passwordInput = useRef();
     const confirmPasswordInput = useRef();
-
-    const history = useHistory();
 
     const validateForm = errors => {
 
@@ -29,7 +35,7 @@ const Signup = () => {
 
     }
 
-    const initialState = {
+    const formInitialState = {
         username: '',
         email: '',
         password: '',
@@ -39,14 +45,14 @@ const Signup = () => {
             email: '',
             password: '',
             confirmPassword: ''
-        }
+        },
     }
 
-    const resetForm  = () => {
-        setFormData(initialState);
+    const resetForm = () => {
+        setFormData(formInitialState);
     }
 
-    const [formData, setFormData] = useState(initialState);
+    const [formData, setFormData] = useState(formInitialState);
 
     const handleChange = e => {
 
@@ -118,28 +124,29 @@ const Signup = () => {
         const formDataToSend = {
             username,
             email,
-            password
+            password, 
+            confirmPassword
         }
 
         if (validateForm(errors)) {
 
-            axios.post('/api/users/signup', formDataToSend)
-                .then(res => {
-
-                    resetForm();
-
-                    history.push('/signin');
-
-                })
-                .catch(err => console.log(err));
+            dispatchRegisterRequest(formDataToSend, history)
+            resetForm();
 
         }
 
     }
 
+    const handleCloseAlert = () => {
+        dispatchCleanUsersErrors();
+    }
+
     return (
         <Container className="signup-container container-fluid">
-            <Form className="signup-form" onSubmit={handleSubmit} novalidate>
+            {alertId === 'REGISTER_FAIL' && <Alert color="danger" toggle={handleCloseAlert}>
+                {alertMsg}
+            </Alert>}
+            <Form className="signup-form" onSubmit={handleSubmit} noValidate>
                 <h2>Sign Up</h2>
                 <Col className="p-0">
                     <FormGroup>
@@ -202,6 +209,9 @@ const Signup = () => {
                     </FormGroup>
                 </Col>
                 <Button color="primary" className="mt-3">Sign Up</Button>
+                <Link to="/signin" className="link-signin">
+                    Do you have an account? Sign In
+                </Link>
             </Form>
         </Container>
     );

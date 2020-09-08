@@ -53,10 +53,8 @@ input:-webkit-autofill:active  {
 }
 
 .circular-progress {
-    position: absolute;
     width: 3rem;
     height: 3rem;
-    left: 50%;
 }
 
 .__react_component_tooltip {
@@ -69,8 +67,6 @@ input:-webkit-autofill:active  {
         opacity: 1 !important;
     }
 }
-
-
 
 .fade-enter {
     opacity: 0;

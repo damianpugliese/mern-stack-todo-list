@@ -10,7 +10,6 @@ import ToDoItems from '../ToDoItems/ToDoItems'
 
 const ToDoList = () => {
 
-    const loading = useSelector(state => state.tasks.loading)
     const tasks = useSelector(state => state.tasks.tasks)
     const dispatch = useDispatch();
     const dispatchGetTasks = () => dispatch(getTasks())
@@ -23,24 +22,21 @@ const ToDoList = () => {
         <>
             <Container className="todo-list-container">
                 <h5 className="text-primary">Tasks</h5>
-                <AddToDoBar/>
-                {loading
-                    ? <Spinner color="primary" size="lg" className="circular-progress mt-4" />
-                    : <ListGroup flush>
-                        <TransitionGroup className="todo-list">
-                            {tasks.map(({ _id, title }, i) => (
-                                <CSSTransition key={_id} timeout={300} classNames="fade">
-                                    <ToDoItems
-                                        tasks={tasks}
-                                        id={_id} 
-                                        title={title} 
-                                        i={i}
-                                    />
-                                </CSSTransition>
-                            ))}
-                        </TransitionGroup>
-                    </ListGroup>
-                }
+                <AddToDoBar />
+                <ListGroup flush>
+                    <TransitionGroup className="todo-list">
+                        {tasks && tasks.map(({ _id, title }, i) => (
+                            <CSSTransition key={_id} timeout={300} classNames="fade">
+                                <ToDoItems
+                                    tasks={tasks}
+                                    id={_id}
+                                    title={title}
+                                    i={i}
+                                />
+                            </CSSTransition>
+                        ))}
+                    </TransitionGroup>
+                </ListGroup>
             </Container>
             <EditToDoModal />
         </>

@@ -1,24 +1,28 @@
-import { 
+import {
     USER_LOADING,
     USER_LOADED,
     AUTH_ERROR,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
-    REGISTER_SUCCESS,
-    REGISTER_FAIL,
     GET_USERS_ERRORS,
-    CLEAN_USERS_ERRORS
+    CLEAN_USERS_ERRORS,
+    REGISTER_FAIL,
+    GET_USERS_MSGS_SUCCESS,
+    CLEAN_USERS_MSGS_SUCCESS,
 } from '../../actions/Users/usersActionsTypes';
 
 const initialState = {
-    token: localStorage.getItem('token'),
     isAuthenticated: null,
-    isLoading: false,
+    isLoading: true,
     user: null,
     errors: {
         msg: {},
         status: null,
+        id: null
+    },
+    msgsSuccess: {
+        msg: {},
         id: null
     }
 }
@@ -28,32 +32,30 @@ const usersReducer = (state = initialState, action) => {
         case USER_LOADING:
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
             };
         case USER_LOADED:
             return {
                 ...state,
+                user: action.payload,
                 isAuthenticated: true,
                 isLoading: false,
-                user: action.payload
             };
         case LOGIN_SUCCESS:
-        case REGISTER_SUCCESS:
-            localStorage.setItem(action.payload.token);
+            localStorage.setItem('token', action.payload.token);
             return {
                 ...state,
-                ...action.payload,
+                user: action.payload.user,
                 isAuthenticated: true,
                 isLoading: false,
             };
         case AUTH_ERROR:
         case LOGIN_FAIL:
-        case LOGOUT_SUCCESS:
         case REGISTER_FAIL:
+        case LOGOUT_SUCCESS:
             localStorage.removeItem('token');
             return {
                 ...state,
-                token: null,
                 isAuthenticated: null,
                 isLoading: false,
                 user: null,
@@ -69,14 +71,30 @@ const usersReducer = (state = initialState, action) => {
             };
         case CLEAN_USERS_ERRORS:
             return {
-                ...state,              
+                ...state,
                 errors: {
                     msg: {},
                     status: null,
                     id: null
                 }
             };
-       default:
+        case GET_USERS_MSGS_SUCCESS:
+            return {
+                ...state,
+                msgsSuccess: {
+                    msg: action.payload.msg,
+                    id: action.payload.id
+                }
+            };
+        case CLEAN_USERS_MSGS_SUCCESS:
+            return {
+                ...state,
+                msgsSuccess: {
+                    msg: {},
+                    id: null
+                }
+            };
+        default:
             return state;
     }
 }

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const { ObjectId } = mongoose.Schema.Types;
 
 const UserSchema = new Schema({
     username: {
@@ -8,12 +9,12 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
-        default: false,
+        required: true,
         unique: true
     },
     password: {
         type: String,
-        default: false
+        required: true
     },
     register_date: {
         type: Date,
