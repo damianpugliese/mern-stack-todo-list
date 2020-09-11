@@ -51,6 +51,9 @@ Damián Pugliese
 1.0.0
 
 ### Licencia
+
+Este proyecto tiene licencia MIT
+
 ---
 &nbsp;
 
@@ -102,5 +105,5 @@ Damián Pugliese
 
 ### Licence
 
-Este proyecto tiene licencia MIT
+This project has licence MIT
 
